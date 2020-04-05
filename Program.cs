@@ -7,17 +7,17 @@ namespace HomeWork04._04
         public string imSotr {get;set;}
         public string famSotr {get;set;}
         public string dolzhnost {get;set;}
-        public int staz {get;set;}
+        public int stazh {get;set;}
         public Employee(string imSotr, string famSotr, string dolzhnost, int staz)
         {
             this.imSotr = imSotr;
             this.famSotr = famSotr;
             this.dolzhnost = dolzhnost;
-            this.staz = staz;
+            this.stazh = staz;
         }
-        private static string[] dolzha = {"Программист","Инженер","Врач","Секретарь","Бизнесмен","Учитель","Директор","Гейммейкер","Фармацевт","Тренер"};
+        private static string[] dolzhArr = {"Программист","Инженер","Врач","Секретарь","Бизнесмен","Учитель","Директор","Гейммейкер","Фармацевт","Тренер"};
         private static int[] okladDolzh = {1200,3000,2300,1500,2700,1234,4134,1340,1234,5435};
-        private static int[] stazh = {0,100,200,300,400,500,600,700,800,900};
+        private static int[] stazhArr = {0,100,200,300,400,500,600,700,800,900};
         public void GetInfo ()
         {
             System.Console.WriteLine($"Должность: {dolzhnost}\nИмя: {imSotr}\nФамилия: {famSotr}");
@@ -25,19 +25,19 @@ namespace HomeWork04._04
         public int GetPlusStazh ()
         {
             int sum = 0;
-            for(int i = 0; i < stazh.Length; i++)
+            for(int i = 0; i < stazhArr.Length; i++)
             {
-                if(dolzha[i] == dolzhnost)
+                if(dolzhArr[i] == dolzhnost)
                 {
-                    sum = okladDolzh[i];
+                    sum += okladDolzh[i];
                 }
-                if(staz > stazh.Length-1 && i < 1)
+                if(stazh > stazhArr.Length-1 && i < 1)
                 {
-                    sum += stazh[stazh.Length-1];
+                    sum += stazhArr[stazhArr.Length-1];
                 }
-                else if(i == staz)
+                else if(i == stazh)
                 {
-                    sum += stazh[i];
+                    sum += stazhArr[i];
                 }
             }
             return sum;
@@ -47,27 +47,47 @@ namespace HomeWork04._04
         {
             System.Console.Write("Список профессий: ");
             
-            for(int i = 0; i < dolzha.Length; i ++)
+            for(int i = 0; i < dolzhArr.Length; i ++)
             {
-                if(i == dolzha.Length-1)
+                if(i == dolzhArr.Length-1)
                 {
-                    System.Console.Write(dolzha[i] + " ");
+                    System.Console.Write(dolzhArr[i] + " ");
                 }
                 else {
-                    System.Console.Write(dolzha[i] + ", ");
+                    System.Console.Write(dolzhArr[i] + ", ");
                 }
             }
             System.Console.WriteLine();
         }
         public void ShowoOklad()
         {
-            for(int i = 0; i < dolzha.Length;i++)
+            for(int i = 0; i < dolzhArr.Length;i++)
             {
-                if(dolzha[i] == dolzhnost)
+                if(dolzhArr[i] == dolzhnost)
                 {
-                    System.Console.WriteLine($"У {dolzha[i]} зарплата = {okladDolzh[i]}");
+                    System.Console.WriteLine($"У {dolzhArr[i]} зарплата = {okladDolzh[i]}");
                 }
             }
+        }
+        public void ShowNalog()
+        {
+            double nalog = 0;
+            for(int i = 0; i < dolzhArr.Length; i++)
+            {
+                if(dolzhArr[i] == dolzhnost)
+                {
+                    nalog += okladDolzh[i];
+                }
+                if(stazh > stazhArr.Length-1 && i < 1)
+                {
+                    nalog += stazhArr[stazhArr.Length-1];
+                }
+                else if(i == stazh)
+                {
+                    nalog += stazhArr[i];
+                }
+            }
+            System.Console.WriteLine($"Размер зарплаты учитывая 13%({Math.Round((nalog*0.13),2)} сомон) налога и 1%({Math.Round((nalog*0.01),2)} сомон) пенсионного фонда с общей суммы {nalog} сомон с учетом стажа в {stazh} лет = {Math.Round((nalog - (nalog*0.01) - (nalog * 0.13)),2)} сомон");
         }
     }
     class Program
@@ -85,11 +105,11 @@ namespace HomeWork04._04
             System.Console.Write("Введите вашу профессию: ");
             employee.dolzhnost = Console.ReadLine();
             System.Console.Write("Введите ваш стаж: ");
-            employee.staz = int.Parse(Console.ReadLine());
+            employee.stazh = int.Parse(Console.ReadLine());
             employee.GetInfo();
             employee.ShowoOklad();
             Console.WriteLine($"Зарплата с учетом стажа работы = " + employee.GetPlusStazh());
-
+            employee.ShowNalog();
             // int k = 1;
             // int l = 0;
             // while(k != 5)
